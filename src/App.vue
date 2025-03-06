@@ -1,26 +1,27 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { useFinanceStore } from '@/stores/useFinanceStore';
+import { useBalance } from '@/composables/useBalance';
+import ACard from '@/components/ACard.vue';
+import AButton from '@/components/AButton.vue';
+import { AColor } from './types/common';
+import { TransactionType } from './types/finance';
 
-const balance = ref(12500);
-const transactions = ref([
-  { id: 1, type: 'income', amount: 5000, description: 'Зарплата' },
-  { id: 2, type: 'expense', amount: 1500, description: 'Продукты' },
-  { id: 3, type: 'expense', amount: 2000, description: 'Кафе' },
-]);
+const financeStore = useFinanceStore();
+const { balance, transactions } = financeStore;
+const { addTransaction } = useBalance();
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col items-center bg-gray-100 p-6">
     <h1 class="text-3xl font-bold mb-4">💰 Мои Финансы</h1>
-    
-    <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-      <h2 class="text-xl font-semibold">Текущий баланс: <span class="text-green-500">{{ balance }} ₽</span></h2>
-      
+
+    <ACard title="Текущий баланс:">
+      <span class="text-green-500">{{ balance }} ₽</span>
       <div class="flex gap-4 mt-4">
-        <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">➕ Доход</button>
-        <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">➖ Расход</button>
+        <AButton :color="AColor.Green" text="➕ Доход" @click="addTransaction(TransactionType.Income, 1000, 'Бонус')" />
+        <AButton :color="AColor.Red" text="➖ Расход" @click="addTransaction(TransactionType.Expense, 500, 'Кофе')" />
       </div>
-    </div>
+    </ACard>
 
     <div class="mt-6 w-full max-w-md">
       <h3 class="text-lg font-semibold mb-2">📜 История транзакций</h3>
