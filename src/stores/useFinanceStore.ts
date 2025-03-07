@@ -18,7 +18,7 @@ export const useFinanceStore = defineStore('finance', () => {
 			description,
 		});
 
-		if (type === 'income') {
+		if (type === TransactionType.Income) {
 			balance.value += amount;
 		} else {
 			balance.value -= amount;
