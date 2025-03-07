@@ -1,23 +1,42 @@
 <template>
-    <ACard title="Текущий баланс:">
-        <span class="text-green-500">{{ balance }} ₽</span>
-        <div class="flex gap-4 mt-4">
-            <AButton :color="AColor.Green" text="➕ Доход"
-                @click="emit('add-transaction', TransactionType.Income, 1000, 'Бонус')" />
-            <AButton :color="AColor.Red" text="➖ Расход"
-                @click="emit('add-transaction', TransactionType.Expense, 500, 'Кофе')" />
-        </div>
-    </ACard>
+    <div class="flex flex-col gap-2">
+        <AInput v-model="description" placeholder="Описание" />
+        <AInput v-model="amount" type="number" placeholder="Сумма" />
+        <ASelect v-model="category" :options="categoryOptions" />
+        <button @click="addTx(TransactionType.Income)" class="text-white">+ Доход</button>
+        <button @click="addTx(TransactionType.Expense)" class="text-white">- Расход</button>
+    </div>
 </template>
+
 <script setup lang="ts">
-import ACard from "@/components/ACard.vue";
-import AButton from "@/components/AButton.vue";
-import { AColor } from "@/types/common";
+import { computed, ref } from "vue";
+import { categories } from "@/constants/categories";
 import { TransactionType } from "@/types/finance";
+import AInput from "./AInput.vue";
+import ASelect from "./ASelect.vue";
 
-defineProps<{
-    balance: number;
-}>();
+const description = ref<string>("");
+const amount = ref<number>(0);
+const category = ref(categories[0].type);
+const emit = defineEmits(["addTransaction"]);
 
-const emit = defineEmits(["add-transaction"]);
+const categoryOptions = computed(() =>
+    categories.map((cat) => ({ value: cat.type, label: cat.name }))
+);
+
+const addTx = (type: TransactionType) => {
+    if (!description.value || amount.value <= 0) return;
+
+    emit("addTransaction", {
+        id: Date.now().toString(),
+        description: description.value,
+        amount: amount.value,
+        type,
+        category: category.value,
+        date: new Date().toISOString(),
+    });
+
+    description.value = "";
+    amount.value = 0;
+};
 </script>
