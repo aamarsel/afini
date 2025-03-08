@@ -11,9 +11,11 @@
 </template>
 
 <script setup lang="ts">
+import type { ASelectOption } from '@/types';
+
 defineProps<{
-    modelValue: string;
-    options: { value: string; label: string }[];
+    modelValue: ASelectOption['value'];
+    options: ASelectOption[];
 }>();
 
 defineEmits(["update:modelValue"]);

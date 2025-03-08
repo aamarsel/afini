@@ -18,20 +18,23 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { type Transaction, TransactionType, TransactionCategoryType } from "@/types/finance";
-import { categories } from "@/constants/categories";
+import { type Transaction, TransactionType } from "@/types";
+import { useCategoryStore } from "@/stores/useCategoryStore";
+import { storeToRefs } from "pinia";
 import ASelect from "./ASelect.vue";
 
 const props = defineProps<{ transactions: Transaction[] }>();
-const selectedCategory = ref<TransactionCategoryType>(TransactionCategoryType.Salary);
+
+const { categories } = storeToRefs(useCategoryStore());
+const selectedCategory = ref<string>((1).toString());
 
 const categoryOptions = computed(() =>
-    categories.map(cat => ({ value: cat.type, label: cat.name }))
+    categories.value.map(cat => ({ value: cat.id.toString(), label: cat.name }))
 );
 
 const filteredTransactions = computed(() => {
-    console.log(props.transactions)
+    console.log(props.transactions, selectedCategory.value)
     if (!selectedCategory.value) return props.transactions;
-    return props.transactions.filter(tx => tx.category === selectedCategory.value);
+    return props.transactions.filter(tx => tx.categoryId.toString() === selectedCategory.value);
 });
 </script>

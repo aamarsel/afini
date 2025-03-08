@@ -1,5 +1,5 @@
 import { useFinanceStore } from '@/stores/useFinanceStore';
-import { type Transaction } from '@/types/finance';
+import { type Transaction } from '@/types';
 
 export const useBalance = () => {
     const financeStore = useFinanceStore();
@@ -8,9 +8,9 @@ export const useBalance = () => {
         type, 
         amount, 
         description,
-        category,
+        categoryId,
     }: Omit<Transaction, 'id'>) => {
-        financeStore.addTransaction({type, amount, description, category});
+        financeStore.addTransaction({type, amount, description, categoryId});
     };
 
     return {

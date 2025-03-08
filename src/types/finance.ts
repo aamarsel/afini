@@ -1,28 +1,24 @@
+import { TransactionCategoryType } from "./category";
+
 export enum TransactionType {
     Income = "income",
     Expense = "expense",
 }
-
-
-export enum TransactionCategoryType {
-    Salary = "salary",
-    Groceries = "groceries",
-    Cafe = "cafe",
-    Transport = "transport",
-    Entertainment = "entertainment",
-    Health = "health",
-    Bonus = "bonus",
-}
-
-export type TransactionCategory = {
-    type: TransactionCategoryType;
-    name: string;
-};
 
 export interface Transaction {
     id: number;
     type: TransactionType;
     amount: number;
     description: string;
-    category?: TransactionCategoryType;
+    categoryId: number;
 }
+
+export const transactionCategoryNames: Record<TransactionCategoryType, string> = {
+    [TransactionCategoryType.Salary]: "Зарплата",
+    [TransactionCategoryType.Groceries]: "Продукты",
+    [TransactionCategoryType.Cafe]: "Кафе",
+    [TransactionCategoryType.Transport]: "Транспорт",
+    [TransactionCategoryType.Entertainment]: "Развлечения",
+    [TransactionCategoryType.Health]: "Здоровье",
+    [TransactionCategoryType.Bonus]: "Бонус",
+};

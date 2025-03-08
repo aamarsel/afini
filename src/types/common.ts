@@ -3,3 +3,8 @@ export enum AColor {
     Red = 'red',
     Blue = 'blue',
 }
+
+export interface ASelectOption {
+    value: string;
+    label: string;
+}
