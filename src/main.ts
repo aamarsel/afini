@@ -3,6 +3,11 @@ import { createPinia } from 'pinia';
 import './style.css'
 import App from './App.vue'
 import './assets/main.css'
+import { openDB } from "@/db";
+
+openDB().then(() => {
+  console.log("IndexedDB инициализирована");
+}).catch(console.error);
 
 const pinia = createPinia();
 

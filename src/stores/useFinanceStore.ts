@@ -1,31 +1,33 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { type Transaction, TransactionType, TransactionCategoryType } from '@/types';
+import { type Transaction, TransactionType } from '@/types';
+import { openDB, STORE_TRANSACTIONS } from "@/db";
+import { dbRequest, addToStore } from '@/db/utils';
 
 export const useFinanceStore = defineStore('finance', () => {
-	const balance = ref(12500);
-	const transactions = ref<Transaction[]>([
-		{ id: 1, type: TransactionType.Income, amount: 5000, description: 'Зарплатонька пришла!', categoryId: 1 },
-		{ id: 2, type: TransactionType.Expense, amount: 1500, description: 'Продукты хаваем', categoryId: 2 },
-		{ id: 3, type: TransactionType.Expense, amount: 2000, description: 'Кафе жи есть', categoryId: 3 },
-	]);
+	const balance = ref<number>(0);
+	const transactions = ref<Transaction[]>([]);
 
-	const addTransaction = ({type, amount, description, categoryId}: Omit<Transaction, 'id'>) => {
-		console.log('Adding transaction', type, amount, description, categoryId);
-		transactions.value.push({
-			id: Date.now(),
-			type,
-			amount,
-			description,
-			categoryId,
-		});
+	const loadTransactions = async () => {
+		const db = await openDB();
+		const store = db.transaction(STORE_TRANSACTIONS, "readonly").objectStore(STORE_TRANSACTIONS);
 
-		if (type === TransactionType.Income) {
-			balance.value += amount;
-		} else {
-			balance.value -= amount;
-		}
+		transactions.value = await dbRequest(store.getAll());
+		balance.value = transactions.value.reduce(
+			(acc, tx) => acc + (tx.type === TransactionType.Income ? tx.amount : -tx.amount),
+			0
+		);
 	};
+
+	const addTransaction = async (transaction: Omit<Transaction, "id">) => {
+		const db = await openDB();
+		const newTransaction: Transaction = { id: Date.now(), ...transaction };
+
+		await addToStore(db, "transactions", newTransaction);
+		await loadTransactions(); 
+	};
+
+	loadTransactions();
 
 	return {
 		balance,

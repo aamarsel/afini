@@ -35,6 +35,6 @@ const categoryOptions = computed(() =>
 const filteredTransactions = computed(() => {
     console.log(props.transactions, selectedCategory.value)
     if (!selectedCategory.value) return props.transactions;
-    return props.transactions.filter(tx => tx.categoryId.toString() === selectedCategory.value);
+    return props.transactions?.filter(tx => tx.categoryId.toString() === selectedCategory.value) || [];
 });
 </script>

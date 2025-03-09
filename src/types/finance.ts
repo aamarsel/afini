@@ -11,6 +11,7 @@ export interface Transaction {
     amount: number;
     description: string;
     categoryId: number;
+    date: Date;
 }
 
 export const transactionCategoryNames: Record<TransactionCategoryType, string> = {

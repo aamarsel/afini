@@ -1,0 +1,9 @@
+[
+    { "name": "Зарплата", "type": "salary", "id": 1 },
+    { "name": "Продукты", "type": "groceries", "id": 2 },
+    { "name": "Кафе", "type": "cafe", "id": 3 },
+    { "name": "Транспорт", "type": "transport", "id": 4 },
+    { "name": "Развлечения", "type": "entertainment", "id": 5 },
+    { "name": "Здоровье", "type": "health", "id": 6 },
+    { "name": "Бонус", "type": "bonus", "id": 7 }
+]
