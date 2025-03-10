@@ -14,24 +14,42 @@ export const useCategoryStore = defineStore("category", () => {
         categories.value = await dbRequest(store.getAll());
     };
 
+    const notifyUpdate = () => {
+		localStorage.setItem("categoriesUpdated", Date.now().toString());
+	};
+
     const addCategory = async (name: string, type: TransactionCategoryType) => {
         const db = await openDB();
 		const newCategory = { id: Date.now(), name, type };
 
 		await addToStore(db, "categories", newCategory);
 		await loadCategories();
+        notifyUpdate();
     };
 
     const deleteCategory = async (id: number) => {
         const db = await openDB();
 		await deleteFromStore(db, "categories", id);
 		await loadCategories();
+        notifyUpdate();
     };
 
     const updateCategory = (id: number, newName: string) => {
         const category = categories.value.find(cat => cat.id === id);
         if (category) category.name = newName;
     };
+
+    openDB().then((db) => {
+		db.onversionchange = () => {
+			loadCategories();
+		};
+	});
+
+    window.addEventListener("storage", (event) => {
+		if (event.key === "categoriesUpdated") {
+			loadCategories();
+		}
+	});
 
     loadCategories();
 

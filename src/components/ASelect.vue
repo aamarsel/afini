@@ -2,7 +2,7 @@
     <select 
         :value="modelValue"
         @change="$emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
-        class="border-b-amber-950 bg-white h-10 border-2 rounded-md pl-3"
+        class="border-b-amber-950 bg-white h-10 border-2 rounded-md pl-3 min-w-0 max-w-full w-full"
     >
         <option v-for="option in options" :key="option.value" :value="option.value">
             {{ option.label }}
