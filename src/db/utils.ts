@@ -22,3 +22,9 @@ export function deleteFromStore(db: IDBDatabase, storeName: string, key: IDBVali
 	const store = tx.objectStore(storeName);
 	return dbRequest(store.delete(key));
 }
+
+export function getAllFromStore<T>(db: IDBDatabase, storeName: string): Promise<T[]> {
+	const tx = db.transaction(storeName, "readonly");
+	const store = tx.objectStore(storeName);
+	return dbRequest(store.getAll());
+}

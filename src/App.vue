@@ -16,6 +16,9 @@
       <CategoryChart />
       <DateChart />
     </div>
+    <div class="flex flex-col w-full max-w-md min-h-0 h-full pb-10 pt-10">
+      <AIAnalysis />
+    </div>
   </div>
 </template>
 
@@ -27,6 +30,7 @@ import { storeToRefs } from "pinia";
 import CategoryManager from "@/components/CategoryManager.vue";
 import CategoryChart from "@/components/CategoryChart.vue";
 import DateChart from "./components/DateChart.vue";
+import AIAnalysis from "./components/AIAnalysis.vue";
 
 const financeStore = useFinanceStore();
 const { balance, transactions } = storeToRefs(financeStore);

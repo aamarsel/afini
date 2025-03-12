@@ -22,7 +22,6 @@ export const useFinanceStore = defineStore('finance', () => {
 	const addTransaction = async (transaction: Omit<Transaction, "id">) => {
 		const db = await openDB();
 		const newTransaction: Transaction = { id: Date.now(), ...transaction };
-		console.log(transaction)
 
 		await addToStore(db, STORE_TRANSACTIONS, newTransaction);
 		await loadTransactions(); 

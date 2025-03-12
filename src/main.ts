@@ -5,9 +5,7 @@ import App from './App.vue'
 import './assets/main.css'
 import { openDB } from "@/db";
 
-openDB().then(() => {
-  console.log("IndexedDB инициализирована");
-}).catch(console.error);
+openDB().then().catch(console.error);
 
 const pinia = createPinia();
 

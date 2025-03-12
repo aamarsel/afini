@@ -33,3 +33,5 @@ export const openDB = (): Promise<IDBDatabase> => {
         };
     });
 };
+
+export * from './utils'
