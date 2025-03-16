@@ -1,18 +1,16 @@
 <template>
-    <div>
-        <h2>Анализ AI</h2>
-        <p>{{ aiAnalysis }}</p>
+    <div class="flex flex-col items-center gap-4">
+        <NText>{{ aiAnalysis }}</NText>
 
-        <ATextarea v-model="userPrompt" placeholder="Введите вопрос..." />
-        <AButton @click="sendUserPrompt">Отправить</AButton>
+        <NInput type="textarea" v-model:value="userPrompt" placeholder="Введите вопрос..." />
+        <NButton @click="sendUserPrompt">Отправить</NButton>
 
-        <p v-if="userResponse">Ответ: {{ userResponse }}</p>
+        <NText v-if="userResponse">Ответ: {{ userResponse }}</NText>
     </div>
 </template>
 <script setup lang="ts">
 import { useAIAnalytics } from "@/composables/useAIAnalytics";
-import ATextarea from "@/components/ATextarea.vue";
-import AButton from "@/components/AButton.vue";
+import { NInput, NButton, NText } from "naive-ui";
 
 const { aiAnalysis, userPrompt, userResponse, sendUserPrompt } = useAIAnalytics();
 </script>

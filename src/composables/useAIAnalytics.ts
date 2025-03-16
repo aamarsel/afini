@@ -27,7 +27,7 @@ async function sendToAI(prompt: string): Promise<string> {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            model: "deepseek-v2",
+            model: "mistral",
             prompt,
             stream: false,
         }),
@@ -52,7 +52,7 @@ export function useAIAnalytics() {
 
     async function analyzeTransactions() {
         if (!formattedTransactions.value) return;
-        const prompt = `Ты финансовый аналитик, который является встроенным ИИ-помощником в модном приложении для учета финансов. Проанализируй мои расходы и доходы, найди паттерны и дай рекомендации СТРОГО НА АНГЛИЙСКОМ языке. Можешь вставлять ироничные шуточки по поводу странных и необычных трат человека. Вот данные:\n\n${formattedTransactions.value}`;
+        const prompt = `Ты финансовый аналитик, который является встроенным ИИ-помощником в модном приложении для учета финансов. Проанализируй мои расходы и доходы, найди паттерны и дай рекомендации СТРОГО НА РУССКОМ языке. Можешь вставлять ироничные шуточки по поводу странных и необычных трат человека. Вот данные:\n\n${formattedTransactions.value}`;
         aiAnalysis.value = await sendToAI(prompt);
     }
 

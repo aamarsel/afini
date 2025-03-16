@@ -1,15 +1,17 @@
 <template>
-    <ASelect 
-        :modelValue="modelValue" 
-        @update:modelValue="$emit('update:modelValue', $event)"
+    <NSelect 
+        :value="modelValue" 
+        @update:value="$emit('update:modelValue', $event)"
+        placeholder="Тип категории"
         :options="options"
     />
 </template>
 <script setup lang="ts">
-import { transactionCategoryNames, type ASelectOption, TransactionCategoryType } from '@/types';
-import ASelect from './ASelect.vue';
+import { transactionCategoryNames, TransactionCategoryType } from '@/types';
+import {NSelect} from 'naive-ui';
+import type { SelectMixedOption } from 'naive-ui/es/select/src/interface';
 
-const options: ASelectOption[] = (Object.keys(transactionCategoryNames) as TransactionCategoryType[]).map((key: TransactionCategoryType) => ({
+const options: SelectMixedOption[] = (Object.keys(transactionCategoryNames) as TransactionCategoryType[]).map((key: TransactionCategoryType) => ({
     value: key,
     label: transactionCategoryNames[key],
 }));
